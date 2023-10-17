@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>606534019893-la2bqlqkf8l4m1g6viq9kui285cvaf0h.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAkLmSbERh3NijE2PMqI2VRjLeFJNqkfhU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>606534019893</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.samyati.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>samyati-399816</string>
+	<key>STORAGE_BUCKET</key>
+	<string>samyati-399816.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:606534019893:ios:decd5544fb8e7efcfafa7c</string>
+</dict>
+</plist>
