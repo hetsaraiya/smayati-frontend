@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:samyati/Theme/theme_modal.dart';
 
+// ignore: must_be_immutable
 class SettingAppBar extends StatelessWidget {
-  const SettingAppBar({super.key});
+  String? title;
+  SettingAppBar({Key? key,this.title,});
 
   @override
   Widget build(BuildContext context) {

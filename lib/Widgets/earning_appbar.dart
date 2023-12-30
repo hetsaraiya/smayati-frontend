@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samyati/Theme/theme_modal.dart';
 
+// ignore: must_be_immutable
 class EarningAppBar extends StatelessWidget {
-  const EarningAppBar({super.key});
+  String? title;
+  EarningAppBar({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {

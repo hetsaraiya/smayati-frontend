@@ -2,24 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
+// import 'package:samyati/Pages/home.dart';
 // import 'package:samyati/Pages/InnerPages/test.dart';
 import 'package:samyati/Theme/theme_modal.dart';
 import 'package:samyati/Widgets/count_card.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
+  final String? title;
+  const SettingPage({super.key, this.title});
 
   @override
-  State<SettingPage> createState() => _SettingPageState();
+  State<SettingPage> createState() => _SettingPageState(title: this.title);
 }
 
 class _SettingPageState extends State<SettingPage> {
+  late String? title;
   bool isVisible = true;
   void showToast() {
     setState(() {
       isVisible = !isVisible;
     });
   }
+
+  _SettingPageState({required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,7 @@ class _SettingPageState extends State<SettingPage> {
                                 width: 54,
                               ),
                               Text(
-                                "Username",
+                                "$title",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,

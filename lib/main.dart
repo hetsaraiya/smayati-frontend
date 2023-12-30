@@ -1,11 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+// import 'package:samyati/Pages/home.dart';
 import 'database/mongodb.dart';
 import 'package:provider/provider.dart';
 import 'package:samyati/Pages/welcome.dart';
 import 'package:samyati/Theme/colos.dart';
 import 'package:samyati/Theme/theme_modal.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Provider/auth_provider.dart';
+import 'Provider/auth_provider.dart' as aP;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,7 @@ class samyati extends StatefulWidget {
 
 // ignore: camel_case_types
 class _samyatiState extends State<samyati> {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -30,7 +33,9 @@ class _samyatiState extends State<samyati> {
       child: Consumer(
         builder: (context, ThemeModal themeModal, child) {
           return MultiProvider(
-            providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
+            providers: [
+              ChangeNotifierProvider(create: (_) => aP.AuthProvider())
+            ],
             child: MaterialApp(
                 debugShowCheckedModeBanner: false,
                 themeMode: ThemeMode.system,
@@ -58,7 +63,18 @@ class _samyatiState extends State<samyati> {
                           backgroundColor: Constants().darkAppBar,
                         ),
                       ),
-                home: const WelcomePage()),
+                home: const WelcomePage(),
+                // Column(
+                //   children: [
+                //     if (user != null)
+                //       HomePage(
+                //           userName:
+                //               FirebaseAuth.instance.currentUser!.displayName)
+                //     else
+                //       const WelcomePage(),
+                //   ],
+                // )
+                ),
           );
         },
       ),

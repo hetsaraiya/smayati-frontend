@@ -56,7 +56,6 @@ class _HomeContentState extends State<HomeContent> {
   void initState() {
     // TODO: implement initState
     _fetchStepData();
-
     _timer = Timer.periodic(const Duration(minutes: 1), (Timer timer) {
       _fetchStepData();
     });
@@ -88,18 +87,6 @@ class _HomeContentState extends State<HomeContent> {
     return 1;
   }
 
-  void updateCoinsDB() async {
-    var db = await mongoDB.Db.create(MONGO_URL);
-    await db.open();
-
-    final collection = db.collection(COLLECTION_NAME);
-
-    final criteria = mongoDB.where.eq('userName', title);
-    await collection.update(
-        criteria, mongoDB.modify.set('earnedToday', coinsInt));
-    await db.close();
-  }
-
   Future<void> _fetchStepData() async {
     getPermission();
     try {
@@ -127,6 +114,7 @@ class _HomeContentState extends State<HomeContent> {
           ste = await health.getTotalStepsInInterval(midnight, now);
           sPer = (ste! * 100) / 10000;
         } catch (error) {
+          // ignore: use_build_context_synchronously
           return AwesomeDialog(
               context: context,
               dialogType: DialogType.error,
@@ -142,7 +130,7 @@ class _HomeContentState extends State<HomeContent> {
                     await user.delete();
                     // If successful, the user is deleted, and you can proceed accordingly
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
                     );
                   }
                 } catch (e) {
@@ -209,12 +197,24 @@ class _HomeContentState extends State<HomeContent> {
       print("Error fetching health data: $e");
       // Handle the error gracefully (e.g., show an error message to the user).
     }
-    fetchDataWeek();
     updateCoinsDB();
+    fetchDataWeek();
+  }
+
+  void updateCoinsDB() async {
+    var db = await mongoDB.Db.create(MONGO_URL);
+    await db.open();
+
+    final collection = db.collection(COLLECTION_NAME);
+
+    final criteria = mongoDB.where.eq('userName', title);
+    print(title);
+    await collection.updateOne(
+        criteria, mongoDB.modify.set('earnedToday', coinsInt));
+    await db.close();
   }
 
   Future<void> fetchDataWeek() async {
-    print("hello");
     try {
       final health = HealthFactory();
       var types = [

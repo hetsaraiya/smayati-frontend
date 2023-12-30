@@ -17,7 +17,6 @@ import 'package:samyati/Widgets/setting_appbar.dart';
 import 'package:samyati/database/constants.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongoconn;
 
-
 class HomePage extends StatefulWidget {
   final String? userName;
   final String? email;
@@ -37,6 +36,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? username;
   String? email;
+  String? user_name;
+
   String? uId;
   String? data;
   _HomePageState(
@@ -47,12 +48,34 @@ class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
   late Widget appTitle;
 
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    user_name = username;
+    super.setState(fn);
+  }
+
   final pages = [
     const HomeContent(),
     const ChallengePage(),
     const EarningPage(),
     const SettingPage(),
   ];
+
+  Widget _buildCurrentScreen() {
+    switch (pageIndex) {
+      case 0:
+        return HomeContent(title: username);
+      case 1:
+        return const ChallengePage();
+      case 2:
+        return EarningPage(title: username,);
+      case 3:
+        return SettingPage(title: username,);
+      default:
+        return const SizedBox(); 
+    }
+  }
 
   void _setAppBarContent() {
     switch (pageIndex) {
@@ -70,12 +93,12 @@ class _HomePageState extends State<HomePage> {
         break;
       case 2:
         setState(() {
-          appTitle = const EarningAppBar();
+          appTitle = EarningAppBar();
         });
         break;
       case 3:
         setState(() {
-          appTitle = const SettingAppBar();
+          appTitle = SettingAppBar();
         });
         break;
       default:
@@ -102,6 +125,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _setAppBarContent();
+    user_name = username;
     if (data == 'route login') {
       collectionconnect();
     } else {}
@@ -233,7 +257,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )),
           ),
-          body: pages[pageIndex],
+          body: _buildCurrentScreen(),
         );
       },
     );
