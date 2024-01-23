@@ -1,401 +1,279 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-// import 'package:flutter_switch/flutter_switch.dart';
+// import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:provider/provider.dart';
 import 'package:samyati/Theme/theme_modal.dart';
-// import 'package:samyati/Widgets/count_card.dart';
-// import 'package:samyati/Widgets/score_table.dart';
 
-class ChallengeTab extends StatelessWidget {
+
+class ChallengeState {
+  bool isTaken = false;
+
+  void takeChallenge() {
+    // Implement logic to take the challenge
+    isTaken = true;
+  }
+
+  void completeChallenge() {
+    // Implement logic to complete the challenge
+    // For example, update user's rewards
+  }
+}
+
+class ChallengeTab extends StatefulWidget {
   const ChallengeTab({super.key});
 
   @override
+  State<ChallengeTab> createState() => _ChallengeTabState();
+}
+
+class _ChallengeTabState extends State<ChallengeTab> {
+  void _takeChallenge(BuildContext context) {
+    // Implement logic to handle when the user takes the challenge
+    // For example, you might show a confirmation dialog or navigate to a new screen
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Challenge'),
+          content: const Text('Are you sure you want to take this challenge?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  isTaken = true;
+                });
+                Navigator.pop(context);
+              },
+              child: Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _completeChallenge(BuildContext context) {
+    // Implement logic to complete the challenge
+    // For example, update the user's reward or show a success message
+    // In this example, we're showing a SnackBar with a success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Congratulations! You earned 100 coins.'),
+      ),
+    );
+  }
+
+  bool isTaken = false;
+  @override
   Widget build(BuildContext context) {
-    // List RandomImages = [
-    //   'assets/images/c1.png',
-    //   'assets/images/c2.png',
-    //   'assets/images/c3.png',
-    // ];
+    List RandomImages = [
+      'assets/images/c1.png',
+      'assets/images/c2.png',
+      'assets/images/c3.png',
+    ];
     return Consumer(builder: (context, ThemeModal themeNotifier, child) {
       return SingleChildScrollView(
-        // child: Column(
-        //   children: [
-        //     const Row(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       mainAxisAlignment: MainAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           "Daily Challenges",
-        //           style: TextStyle(
-        //             fontSize: 18,
-        //             fontWeight: FontWeight.w600,
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //     const SizedBox(
-        //       height: 10,
-        //     ),
-        //     Container(
-        //       height: 387,
-        //       padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-        //       decoration: BoxDecoration(
-        //         borderRadius: BorderRadius.circular(10),
-        //         color: const Color.fromRGBO(243, 243, 243, 1),
-        //         border: Border.all(
-        //           width: 0.75,
-        //           color: themeNotifier.isDark
-        //               ? const Color.fromRGBO(255, 255, 255, 1)
-        //               : const Color.fromRGBO(111, 111, 111, 1),
-        //         ),
-        //       ),
-        //       child: Column(
-        //           crossAxisAlignment: CrossAxisAlignment.center,
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             SizedBox(
-        //               // height: 300,
-        //               child: Stack(
-        //                 alignment: Alignment.bottomCenter,
-        //                 children: [
-        //                   Image.asset(
-        //                     'assets/images/dc.png',
-        //                     height: 322,
-        //                     width: 351,
-        //                   ),
-        //                   SizedBox(
-        //                     height: 120,
-        //                     width: 351,
-        //                     child: ClipRRect(
-        //                       // Clip it cleanly.
-        //                       child: BackdropFilter(
-        //                         filter: ImageFilter.blur(
-        //                           sigmaX: 5,
-        //                           sigmaY: 5,
-        //                         ),
-        //                         child: Container(
-        //                           padding: const EdgeInsets.symmetric(
-        //                               horizontal: 10),
-        //                           decoration: const BoxDecoration(
-        //                             color: Color.fromRGBO(174, 174, 174, 0.14),
-        //                             borderRadius: BorderRadius.only(
-        //                               bottomLeft: Radius.circular(6),
-        //                               bottomRight: Radius.circular(6),
-        //                             ),
-        //                           ),
-        //                           child: Column(
-        //                             mainAxisAlignment: MainAxisAlignment.center,
-        //                             crossAxisAlignment:
-        //                                 CrossAxisAlignment.start,
-        //                             children: [
-        //                               const Text(
-        //                                 "Today's 10,000K Step Challenge",
-        //                                 style: TextStyle(
-        //                                   color: Colors.white,
-        //                                   fontSize: 18,
-        //                                   fontWeight: FontWeight.w600,
-        //                                 ),
-        //                               ),
-        //                               const SizedBox(
-        //                                 height: 5,
-        //                               ),
-        //                               Row(
-        //                                 mainAxisAlignment:
-        //                                     MainAxisAlignment.spaceAround,
-        //                                 crossAxisAlignment:
-        //                                     CrossAxisAlignment.center,
-        //                                 children: [
-        //                                   const Column(
-        //                                     mainAxisAlignment:
-        //                                         MainAxisAlignment.start,
-        //                                     crossAxisAlignment:
-        //                                         CrossAxisAlignment.start,
-        //                                     children: [
-        //                                       Text(
-        //                                         "Goal",
-        //                                         style: TextStyle(
-        //                                           color: Colors.white,
-        //                                           fontSize: 12,
-        //                                           fontWeight: FontWeight.w500,
-        //                                         ),
-        //                                       ),
-        //                                       Text(
-        //                                         "10,000 Steps",
-        //                                         style: TextStyle(
-        //                                           color: Colors.white,
-        //                                           fontSize: 15,
-        //                                           fontWeight: FontWeight.w600,
-        //                                         ),
-        //                                       ),
-        //                                     ],
-        //                                   ),
-        //                                   const SizedBox(
-        //                                     width: 20,
-        //                                   ),
-        //                                   Row(
-        //                                     mainAxisAlignment:
-        //                                         MainAxisAlignment.center,
-        //                                     children: [
-        //                                       for (int i = 0;
-        //                                           i < RandomImages.length;
-        //                                           i++)
-        //                                         Align(
-        //                                           widthFactor: 0.5,
-        //                                           child: CircleAvatar(
-        //                                             radius: 12,
-        //                                             backgroundColor:
-        //                                                 Colors.white,
-        //                                             child: CircleAvatar(
-        //                                               radius: 10,
-        //                                               backgroundImage:
-        //                                                   AssetImage(
-        //                                                       RandomImages[i]),
-        //                                             ),
-        //                                           ),
-        //                                         ),
-        //                                       const SizedBox(width: 15),
-        //                                       const SizedBox(
-        //                                         width: 70,
-        //                                         child: Text(
-        //                                           "10k+ Members",
-        //                                           maxLines: 2,
-        //                                           style: TextStyle(
-        //                                             color: Colors.white,
-        //                                             fontSize: 12,
-        //                                           ),
-        //                                         ),
-        //                                       )
-        //                                     ],
-        //                                   )
-        //                                 ],
-        //                               )
-        //                             ],
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             const SizedBox(
-        //               height: 8,
-        //             ),
-        //             Container(
-        //               height: 45,
-        //               decoration: const BoxDecoration(
-        //                 color: Color.fromRGBO(35, 175, 0, 1),
-        //                 borderRadius: BorderRadius.all(
-        //                   Radius.circular(5),
-        //                 ),
-        //               ),
-        //               child: const Center(
-        //                 child: Text(
-        //                   "Join Now",
-        //                   style: TextStyle(
-        //                     color: Colors.white,
-        //                     fontSize: 15,
-        //                     fontWeight: FontWeight.w600,
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ]),
-        //     ),
-        //     const SizedBox(
-        //       height: 10,
-        //     ),
-        //     const Row(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       mainAxisAlignment: MainAxisAlignment.start,
-        //       children: [
-        //         Text(
-        //           "Daily Challenges",
-        //           style: TextStyle(
-        //             fontSize: 18,
-        //             fontWeight: FontWeight.w600,
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //     const SizedBox(
-        //       height: 10,
-        //     ),
-        //     Container(
-        //       height: 387,
-        //       padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-        //       decoration: BoxDecoration(
-        //         borderRadius: BorderRadius.circular(10),
-        //         color: const Color.fromRGBO(243, 243, 243, 1),
-        //         border: Border.all(
-        //           width: 0.75,
-        //           color: themeNotifier.isDark
-        //               ? const Color.fromRGBO(255, 255, 255, 1)
-        //               : const Color.fromRGBO(111, 111, 111, 1),
-        //         ),
-        //       ),
-        //       child: Column(
-        //           crossAxisAlignment: CrossAxisAlignment.center,
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             SizedBox(
-        //               // height: 300,
-        //               child: Stack(
-        //                 alignment: Alignment.bottomCenter,
-        //                 children: [
-        //                   Image.asset(
-        //                     'assets/images/dc.png',
-        //                     height: 322,
-        //                     width: 351,
-        //                   ),
-        //                   SizedBox(
-        //                     height: 120,
-        //                     width: 351,
-        //                     child: ClipRRect(
-        //                       // Clip it cleanly.
-        //                       child: BackdropFilter(
-        //                         filter: ImageFilter.blur(
-        //                           sigmaX: 5,
-        //                           sigmaY: 5,
-        //                         ),
-        //                         child: Container(
-        //                           padding: const EdgeInsets.symmetric(
-        //                               horizontal: 10),
-        //                           decoration: const BoxDecoration(
-        //                             color: Color.fromRGBO(174, 174, 174, 0.14),
-        //                             borderRadius: BorderRadius.only(
-        //                               bottomLeft: Radius.circular(6),
-        //                               bottomRight: Radius.circular(6),
-        //                             ),
-        //                           ),
-        //                           child: Column(
-        //                             mainAxisAlignment: MainAxisAlignment.center,
-        //                             crossAxisAlignment:
-        //                                 CrossAxisAlignment.start,
-        //                             children: [
-        //                               const Text(
-        //                                 "Today's 10,000K Step Challenge",
-        //                                 style: TextStyle(
-        //                                   color: Colors.white,
-        //                                   fontSize: 18,
-        //                                   fontWeight: FontWeight.w600,
-        //                                 ),
-        //                               ),
-        //                               const SizedBox(
-        //                                 height: 5,
-        //                               ),
-        //                               Row(
-        //                                 mainAxisAlignment:
-        //                                     MainAxisAlignment.spaceAround,
-        //                                 crossAxisAlignment:
-        //                                     CrossAxisAlignment.center,
-        //                                 children: [
-        //                                   const Column(
-        //                                     mainAxisAlignment:
-        //                                         MainAxisAlignment.start,
-        //                                     crossAxisAlignment:
-        //                                         CrossAxisAlignment.start,
-        //                                     children: [
-        //                                       Text(
-        //                                         "Goal",
-        //                                         style: TextStyle(
-        //                                           color: Colors.white,
-        //                                           fontSize: 12,
-        //                                           fontWeight: FontWeight.w500,
-        //                                         ),
-        //                                       ),
-        //                                       Text(
-        //                                         "10,000 Steps",
-        //                                         style: TextStyle(
-        //                                           color: Colors.white,
-        //                                           fontSize: 15,
-        //                                           fontWeight: FontWeight.w600,
-        //                                         ),
-        //                                       ),
-        //                                     ],
-        //                                   ),
-        //                                   const SizedBox(
-        //                                     width: 20,
-        //                                   ),
-        //                                   Row(
-        //                                     mainAxisAlignment:
-        //                                         MainAxisAlignment.center,
-        //                                     children: [
-        //                                       for (int i = 0;
-        //                                           i < RandomImages.length;
-        //                                           i++)
-        //                                         Align(
-        //                                           widthFactor: 0.5,
-        //                                           child: CircleAvatar(
-        //                                             radius: 12,
-        //                                             backgroundColor:
-        //                                                 Colors.white,
-        //                                             child: CircleAvatar(
-        //                                               radius: 10,
-        //                                               backgroundImage:
-        //                                                   AssetImage(
-        //                                                       RandomImages[i]),
-        //                                             ),
-        //                                           ),
-        //                                         ),
-        //                                       const SizedBox(width: 15),
-        //                                       const SizedBox(
-        //                                         width: 70,
-        //                                         child: Text(
-        //                                           "10k+ Members",
-        //                                           maxLines: 2,
-        //                                           style: TextStyle(
-        //                                             color: Colors.white,
-        //                                             fontSize: 12,
-        //                                           ),
-        //                                         ),
-        //                                       )
-        //                                     ],
-        //                                   )
-        //                                 ],
-        //                               )
-        //                             ],
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             const SizedBox(
-        //               height: 8,
-        //             ),
-        //             Container(
-        //               height: 45,
-        //               decoration: const BoxDecoration(
-        //                 color: Color.fromRGBO(35, 175, 0, 1),
-        //                 borderRadius: BorderRadius.all(
-        //                   Radius.circular(5),
-        //                 ),
-        //               ),
-        //               child: const Center(
-        //                 child: Text(
-        //                   "Join Now",
-        //                   style: TextStyle(
-        //                     color: Colors.white,
-        //                     fontSize: 15,
-        //                     fontWeight: FontWeight.w600,
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ]),
-        //     ),
-        //     const SizedBox(
-        //       height: 80,
-        //     ),
-        //   ],
-        // ),
-        child: const Center(
-          child: Text("Coming Soon"),
+        child: Column(
+          children: [
+            const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Daily Challenges",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 387,
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromRGBO(243, 243, 243, 1),
+                border: Border.all(
+                  width: 0.75,
+                  color: themeNotifier.isDark
+                      ? const Color.fromRGBO(255, 255, 255, 1)
+                      : const Color.fromRGBO(111, 111, 111, 1),
+                ),
+              ),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      // height: 300,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Image.asset(
+                            'assets/images/dc.png',
+                            height: 322,
+                            width: 351,
+                          ),
+                          SizedBox(
+                            height: 120,
+                            width: 351,
+                            child: ClipRRect(
+                              // Clip it cleanly.
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(
+                                  sigmaX: 5,
+                                  sigmaY: 5,
+                                ),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromRGBO(174, 174, 174, 0.14),
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(6),
+                                      bottomRight: Radius.circular(6),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Today's 10,000K Step Challenge",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Goal",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              Text(
+                                                "10,000 Steps",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              for (int i = 0;
+                                                  i < RandomImages.length;
+                                                  i++)
+                                                Align(
+                                                  widthFactor: 0.5,
+                                                  child: CircleAvatar(
+                                                    radius: 12,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: CircleAvatar(
+                                                      radius: 10,
+                                                      backgroundImage:
+                                                          AssetImage(
+                                                              RandomImages[i]),
+                                                    ),
+                                                  ),
+                                                ),
+                                              const SizedBox(width: 15),
+                                              const SizedBox(
+                                                width: 70,
+                                                child: Text(
+                                                  "10+ Members",
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      height: 45,
+                      decoration: const BoxDecoration(
+                        color: Color.fromRGBO(35, 175, 0, 1),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _takeChallenge(context);
+                        },
+                        child: Text(
+                          isTaken ? 'Already Joined' : 'Join Now',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 80,
+            ),
+          ],
         ),
       );
     });
@@ -416,7 +294,7 @@ class _FriendsTabState extends State<FriendsTab> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ThemeModal themeNotifier, child) {
-      return SingleChildScrollView(
+      return const SingleChildScrollView(
         // child: Column(
         //   children: [
         //     const Row(

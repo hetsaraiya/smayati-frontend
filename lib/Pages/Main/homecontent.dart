@@ -31,6 +31,7 @@ class HomeContent extends StatefulWidget {
 class _HomeContentState extends State<HomeContent> {
   bool isVisible = true;
   String? title;
+  
   String steps = "0";
   String cal = "0";
   String dis = "0";
