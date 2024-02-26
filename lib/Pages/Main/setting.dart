@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
+import 'package:samyati/Pages/Logins/loginpage.dart';
+import 'package:samyati/Pages/help.dart';
+import 'package:samyati/Pages/privacypolicy.dart';
+import 'package:samyati/Pages/tandc.dart';
+import 'package:samyati/Pages/updates.dart';
 // import 'package:samyati/Pages/home.dart';
 // import 'package:samyati/Pages/InnerPages/test.dart';
 import 'package:samyati/Theme/theme_modal.dart';
 import 'package:samyati/Widgets/count_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPage extends StatefulWidget {
   final String? title;
@@ -18,10 +24,23 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   late String? title;
   bool isVisible = true;
-  void showToast() {
-    setState(() {
-      isVisible = !isVisible;
-    });
+  Future<void> _logout(BuildContext context) async {
+    // Clear user-related data from local storage
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear(); // This will clear all stored data, adapt as needed
+
+    // Navigate to the login page or any other initial screen
+    Navigator.of(context).pop(
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ),
+    );
+
+    
+    // Optional: You might want to inform the user that they have been logged out
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Logged out successfully!'),
+    ));
   }
 
   _SettingPageState({required this.title});
@@ -387,14 +406,23 @@ class _SettingPageState extends State<SettingPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Help",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: themeNotifier.isDark
-                                  ? const Color.fromRGBO(16, 16, 16, 1)
-                                  : const Color.fromRGBO(243, 243, 243, 1),
+                          GestureDetector(
+                            onTap: () => {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const Help(),
+                                ),
+                              ),
+                            },
+                            child: Text(
+                              "Help",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: themeNotifier.isDark
+                                    ? const Color.fromRGBO(16, 16, 16, 1)
+                                    : const Color.fromRGBO(243, 243, 243, 1),
+                              ),
                             ),
                           ),
                           SvgPicture.asset(
@@ -422,14 +450,23 @@ class _SettingPageState extends State<SettingPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "Terms and Conditions",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: themeNotifier.isDark
-                                  ? const Color.fromRGBO(16, 16, 16, 1)
-                                  : const Color.fromRGBO(243, 243, 243, 1),
+                          GestureDetector(
+                            onTap: () => {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const TandC(),
+                                ),
+                              ),
+                            },
+                            child: Text(
+                              "Terms and Conditions",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: themeNotifier.isDark
+                                    ? const Color.fromRGBO(16, 16, 16, 1)
+                                    : const Color.fromRGBO(243, 243, 243, 1),
+                              ),
                             ),
                           ),
                           SvgPicture.asset(
@@ -457,14 +494,23 @@ class _SettingPageState extends State<SettingPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "Privacy Policy",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: themeNotifier.isDark
-                                  ? const Color.fromRGBO(16, 16, 16, 1)
-                                  : const Color.fromRGBO(243, 243, 243, 1),
+                          GestureDetector(
+                            onTap: () => {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const PrivacyPolicy(),
+                                ),
+                              ),
+                            },
+                            child: Text(
+                              "Privacy Policy",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: themeNotifier.isDark
+                                    ? const Color.fromRGBO(16, 16, 16, 1)
+                                    : const Color.fromRGBO(243, 243, 243, 1),
+                              ),
                             ),
                           ),
                           SvgPicture.asset(
@@ -492,14 +538,23 @@ class _SettingPageState extends State<SettingPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "Check Updates",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: themeNotifier.isDark
-                                  ? const Color.fromRGBO(16, 16, 16, 1)
-                                  : const Color.fromRGBO(243, 243, 243, 1),
+                          GestureDetector(
+                            onTap: () => {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const Updates(),
+                                ),
+                              ),
+                            },
+                            child: Text(
+                              "Check Updates",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: themeNotifier.isDark
+                                    ? const Color.fromRGBO(16, 16, 16, 1)
+                                    : const Color.fromRGBO(243, 243, 243, 1),
+                              ),
                             ),
                           ),
                           SvgPicture.asset(
@@ -553,16 +608,51 @@ class _SettingPageState extends State<SettingPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 10),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "Delete Account",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromRGBO(255, 61, 18, 1),
-                              fontWeight: FontWeight.w600,
+                          GestureDetector(
+                            onTap: () {
+                              // Show confirmation dialog
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Confirm Deletion"),
+                                    content: Text(
+                                        "Are you sure you want to delete your account?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          // Close the dialog
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Cancel"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          // Close the dialog
+                                          Navigator.of(context).pop();
+
+                                          _logout(context);
+                                          // For now, you can print a message
+                                          print("Account deleted!");
+                                        },
+                                        child: Text("Delete"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Text(
+                              "Delete Account",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromRGBO(255, 61, 18, 1),
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                           SizedBox()
